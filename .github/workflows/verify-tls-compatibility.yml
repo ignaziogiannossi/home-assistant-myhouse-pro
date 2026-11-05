@@ -1,0 +1,45 @@
+name: Verify vendor TLS compatibility
+on:
+  push:
+    branches: [tls-compatibility]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verified_api:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - run: python -m pip install -r requirements-test.txt aiohttp
+      - name: Verify actual client with a synthetic nonexistent account
+        run: |
+          python - <<'PY'
+          import asyncio, importlib.util, json, socket, ssl, sys
+          from pathlib import Path
+          import aiohttp
+          spec = importlib.util.spec_from_file_location("api", Path("custom_components/myhouse_pro/api.py"))
+          api = importlib.util.module_from_spec(spec)
+          sys.modules[spec.name] = api
+          spec.loader.exec_module(api)
+          assert api.BASE_URL == "https://www.mycomforthouse.com/iotfront/api.php/"
+          assert api.TLS_CONTEXT.check_hostname
+          assert api.TLS_CONTEXT.verify_mode == ssl.CERT_REQUIRED
+          assert api.TLS_CONTEXT.minimum_version >= ssl.TLSVersion.TLSv1_2
+          with socket.create_connection(("www.mycomforthouse.com", 443), timeout=20) as sock:
+              with api.TLS_CONTEXT.wrap_socket(sock, server_hostname="www.mycomforthouse.com") as conn:
+                  print(json.dumps({"openssl":ssl.OPENSSL_VERSION, "tls":conn.version(), "cipher":conn.cipher(), "verified":True}))
+          async def main():
+              async with aiohttp.ClientSession() as session:
+                  client = api.MyHouseClient(session)
+                  try:
+                      await client.login("tls-probe@example.invalid", "not-a-real-account")
+                  except api.AuthenticationError:
+                      print("PASS: actual HTTPS client received the expected authenticated-protocol rejection.")
+                  else:
+                      raise AssertionError("Unexpected synthetic account authentication")
+          asyncio.run(main())
+          PY

@@ -24,6 +24,17 @@ def client():
     return c
 
 class Values(unittest.TestCase):
+    def test_tls_compatibility_preserves_verification_and_modern_defaults(self):
+        defaults = ssl.create_default_context()
+        context = api.TLS_CONTEXT
+        self.assertTrue(context.check_hostname)
+        self.assertEqual(context.verify_mode, ssl.CERT_REQUIRED)
+        self.assertGreaterEqual(context.minimum_version, ssl.TLSVersion.TLSv1_2)
+        self.assertEqual(context.security_level, defaults.security_level)
+        before = {cipher['name'] for cipher in defaults.get_ciphers()}
+        after = {cipher['name'] for cipher in context.get_ciphers()}
+        self.assertEqual(after, before | {'AES128-SHA'})
+
     def test_encryption_roundtrip(self):
         for value in ['', 'test-user@example.invalid', 'pàssword', '22.5']:
             self.assertEqual(api.decrypt(api.encrypt(value).encode()), value)

@@ -6,7 +6,7 @@ Integrazione non ufficiale della comunità per Home Assistant, provata con due t
 
 ## Stato e funzioni
 
-Versione attuale: **0.2.2**, derivata dalla 0.2.0 usata sui due MC6. Altri modelli e account restano da verificare. L'installazione tramite link GitHub è distinta dall'inserimento nel catalogo ricercabile del Marketplace/HACS, che richiede una revisione.
+Versione attuale: **0.2.3**, derivata dalla 0.2.0 usata sui due MC6. Altri modelli e account restano da verificare. L'installazione tramite link GitHub è distinta dall'inserimento nel catalogo ricercabile del Marketplace/HACS, che richiede una revisione.
 
 | Funzione | Comportamento |
 | --- | --- |
@@ -25,7 +25,9 @@ Alcuni dati aggiuntivi sono codici o durate del produttore con significato/unit�
 
 Accesso, letture e comandi utilizzano **HTTPS con verifica del certificato e del nome del server**, su `https://www.mycomforthouse.com/iotfront/api.php/`. Non vengono seguiti reindirizzamenti e non esiste un ripiego su HTTP. Se la verifica TLS fallisce, la connessione viene interrotta. La cifratura AES con chiave fissa resta solo per compatibilità con il protocollo; la protezione del trasporto è fornita da TLS.
 
-**Aggiornare le versioni precedenti:** la 0.2.1 e le precedenti usavano HTTP e vanno sostituite con la 0.2.2. La chiave AES fissa non proteggeva quelle connessioni dalle intercettazioni. La modifica protegge la connessione di questa integrazione al cloud; non modifica l'app del produttore né il firmware dei termostati.
+Il server richiede attualmente la cifratura TLS 1.2 meno recente `AES128-SHA` (scambio chiavi RSA, AES-128-CBC, HMAC-SHA1). La 0.2.3 aggiunge soltanto questa compatibilità al client, mantenendo le cifrature moderne, TLS 1.2 minimo, verifica del certificato/nome server e livello di sicurezza del sistema. La connessione negoziata **non offre forward secrecy**: è un limite del server del produttore. Non vengono modificate le impostazioni SSL degli altri dispositivi o di Home Assistant. La 0.2.2 può non collegarsi su sistemi con impostazioni crittografiche più restrittive.
+
+**Aggiornare le versioni precedenti:** la 0.2.1 e le precedenti usavano HTTP e vanno sostituite con la 0.2.3. La chiave AES fissa non proteggeva quelle connessioni dalle intercettazioni. La modifica protegge la connessione di questa integrazione al cloud; non modifica l'app del produttore né il firmware dei termostati.
 
 Le credenziali del proprio account vengono salvate nella configurazione locale di Home Assistant e inviate al servizio MyHouse Pro per l'accesso. Proteggere Home Assistant e i backup. Il progetto non raccoglie telemetria e il repository non contiene credenziali, configurazioni domestiche o registri degli utenti. Servono Internet e il cloud del produttore; modifiche del servizio possono interrompere l'integrazione.
 

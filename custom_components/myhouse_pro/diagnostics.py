@@ -6,7 +6,7 @@ async def async_get_config_entry_diagnostics(hass, entry):
     coordinator = entry.runtime_data
     data = coordinator.data or {}
     return {
-        "version": "0.2.2",
+        "version": "0.2.3",
         "last_update_success": coordinator.last_update_success,
         "state": str(data.get("state")) if str(data.get("state")) in ("1", "2", "3") else "unknown",
         "temperature_c": in_celsius(data, "tempera"),

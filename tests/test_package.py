@@ -11,7 +11,7 @@ class Package(unittest.TestCase):
     def test_manifest(self):
         m=json.loads((COMP/'manifest.json').read_text())
         self.assertEqual(m['domain'],'myhouse_pro')
-        self.assertEqual(m['version'],'0.2.2')
+        self.assertEqual(m['version'],'0.2.3')
         self.assertEqual(m['codeowners'],['@ignaziogiannossi'])
         for key in ['documentation','issue_tracker']:
             self.assertTrue(m[key].startswith('https://github.com/ignaziogiannossi/home-assistant-myhouse-pro'))

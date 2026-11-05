@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.3
+
+Fix HTTPS negotiation on Home Assistant OS/OpenSSL 3.5.9. The vendor server only accepts the legacy AES128-SHA suite among the tested ciphers. Add that single suite to the per-client context, retain modern defaults and system security level, require TLS 1.2+, and keep certificate/hostname verification, no redirects and no HTTP fallback. Document that this RSA suite lacks forward secrecy.
+
+Adds a regression test for the exact cipher addition and unchanged verification settings, plus a credential-free live probe using the actual client context.
+
 ## 0.2.2
 
 Security fix: replace the legacy HTTP endpoint with verified HTTPS on port 443 for all login, reading and command requests.

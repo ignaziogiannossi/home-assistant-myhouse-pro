@@ -22,6 +22,14 @@ BASE_URL = "https://www.mycomforthouse.com/iotfront/api.php/"
 # Load the system trust store once at module import, not during async requests.
 # An explicit context also overrides an injected connector's SSL defaults.
 TLS_CONTEXT = ssl.create_default_context()
+# The vendor's TLS 1.2 endpoint only negotiates TLS_RSA_WITH_AES_128_CBC_SHA.
+# Keep modern defaults first, add only that compatibility suite for this client,
+# and retain certificate/hostname checks and the system security level.
+TLS_CONTEXT.minimum_version = ssl.TLSVersion.TLSv1_2
+TLS_CONTEXT.set_ciphers(":".join(
+    cipher["name"] for cipher in TLS_CONTEXT.get_ciphers()
+    if cipher["protocol"] != "TLSv1.3"
+) + ":AES128-SHA")
 # Public protocol constant embedded in the vendor APK; not a user credential.
 PROTOCOL_KEY = b"www.brande.commc6mqtt_aes256ecb7"
 MAX_RESPONSE = 1024 * 1024
