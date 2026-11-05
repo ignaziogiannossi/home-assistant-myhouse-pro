@@ -6,7 +6,7 @@ Unofficial community integration for Home Assistant, tested with two **MAXA MC6*
 
 ## Status
 
-First public candidate: **0.2.1**, based on the 0.2.0 installation used with two MC6 thermostats. Compatibility with other devices/accounts is not yet established. The integration is distributed through its GitHub link; inclusion in the searchable Marketplace/HACS catalog is a separate review process.
+Current release: **0.2.2**, based on the 0.2.0 installation used with two MC6 thermostats. Compatibility with other devices/accounts is not yet established. The integration is distributed through its GitHub link; inclusion in the searchable Marketplace/HACS catalog is a separate review process.
 
 ## Features
 
@@ -25,7 +25,9 @@ Some extra fields are undocumented vendor codes or durations with unverified uni
 
 ## Cloud transport and credentials
 
-The implemented vendor protocol uses **HTTP**, with AES-ECB application encryption and a fixed key embedded in the original protocol. This is **not equivalent to HTTPS** and does not protect against an attacker able to intercept or modify traffic. Understand this limitation before entering credentials. This integration does not disable certificate checks or silently redirect requests.
+All login, reading and command requests use **HTTPS with certificate and hostname verification** at `https://www.mycomforthouse.com/iotfront/api.php/`. Requests never fall back to HTTP and never follow redirects. If TLS verification fails, the connection fails closed. The fixed-key AES layer remains only for vendor protocol compatibility; TLS provides transport protection.
+
+**Upgrade older versions:** 0.2.1 and earlier used an HTTP endpoint and should be replaced with 0.2.2. The protocol's fixed AES key did not protect those connections against interception. This change secures this integration's connection to the cloud; it does not change the vendor app or thermostat firmware.
 
 Your MyHouse Pro credentials are stored locally in Home Assistant's config entry, like other password-based integrations, and are sent to the MyHouse Pro service to sign in. Protect your Home Assistant instance and backups. No credentials, logs, household configuration or analytics are included in this repository. No telemetry is sent to the project maintainer. Internet and the vendor cloud are required; vendor changes may break the integration.
 
@@ -53,7 +55,7 @@ The thermostat must already work in the MyHouse Pro app and use its Wi-Fi/cloud 
 
 ## Updating an existing prototype
 
-Make a Home Assistant backup first. Version 0.2.1 keeps the `myhouse_pro` domain, config-entry format and entity unique IDs from 0.2.0. Replace the component folder or let Marketplace/HACS manage the same domain, then restart. Check readings and existing dashboards afterwards. Entity labels now support English and Italian; user-assigned names remain under HA's entity registry. This release does not deploy or modify household dashboards or automations.
+Make a Home Assistant backup first. Version 0.2.2 keeps the `myhouse_pro` domain, config-entry format and entity unique IDs from 0.2.0. Replace the component folder or let Marketplace/HACS manage the same domain, then restart. Check readings and existing dashboards afterwards. Entity labels now support English and Italian; user-assigned names remain under HA's entity registry. This release does not deploy or modify household dashboards or automations.
 
 ## Troubleshooting and removal
 

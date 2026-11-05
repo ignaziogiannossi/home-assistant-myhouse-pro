@@ -2,6 +2,7 @@
 import asyncio
 import importlib.util
 import json
+import ssl
 from pathlib import Path
 import sys
 import unittest
@@ -131,8 +132,52 @@ class Transport(unittest.IsolatedAsyncioTestCase):
         args,kwargs=s.calls[0]
         self.assertEqual(args[0],api.BASE_URL+'User/login?')
         self.assertFalse(kwargs['allow_redirects'])
+        self.assertEqual(args[0], 'https://www.mycomforthouse.com/iotfront/api.php/User/login?')
+        self.assertTrue(kwargs['ssl'].check_hostname)
+        self.assertEqual(kwargs['ssl'].verify_mode, ssl.CERT_REQUIRED)
         self.assertEqual(api.decrypt(kwargs['data']['password'].encode()), 'synthetic')
         self.assertNotEqual(kwargs['data']['password'], 'synthetic')
+
+    async def test_http_is_blocked_before_credentials_are_sent(self):
+        s=Session(Response());c=api.MyHouseClient(s)
+        with patch.object(api, 'BASE_URL', 'http://www.mycomforthouse.com:8080/iotfront/api.php/'):
+            with self.assertRaises(api.MyHouseError): await c.login('synthetic', 'synthetic')
+        self.assertEqual(s.calls, [])
+
+    async def test_certificate_failure_never_falls_back_or_retries(self):
+        class Untrusted:
+            def __init__(self): self.calls=[]
+            def post(self, *args, **kwargs):
+                self.calls.append((args, kwargs))
+                raise ssl.SSLCertVerificationError('untrusted certificate; private-data')
+        s=Untrusted();c=api.MyHouseClient(s)
+        with self.assertRaises(api.MyHouseError) as result: await c.login('synthetic', 'synthetic')
+        self.assertEqual(len(s.calls), 1)
+        self.assertTrue(s.calls[0][0][0].startswith('https://'))
+        self.assertNotIn('private-data', str(result.exception))
+
+    async def test_redirects_are_rejected_without_resending_credentials(self):
+        for status in (301, 302, 303, 307, 308):
+            with self.subTest(status=status):
+                s=Session(Response(status=status));c=api.MyHouseClient(s)
+                with self.assertRaises(api.MyHouseError): await c.login('synthetic', 'synthetic')
+                self.assertEqual(len(s.calls), 1)
+                self.assertFalse(s.calls[0][1]['allow_redirects'])
+
+    async def test_read_and_write_use_verified_https(self):
+        s=Session(Response(detail()));c=api.MyHouseClient(s)
+        c.account_id=DEVICE.account_id;c.devices={DEVICE.device_id:DEVICE}
+        await c.read(DEVICE)
+        s.response=Response({})
+        await c.set_power(DEVICE, True)
+        s.response=Response({})
+        await c.set_temperature(DEVICE, 22, detail())
+        self.assertEqual(len(s.calls), 3)
+        for args, kwargs in s.calls:
+            self.assertTrue(args[0].startswith('https://www.mycomforthouse.com/'))
+            self.assertTrue(kwargs['ssl'].check_hostname)
+            self.assertEqual(kwargs['ssl'].verify_mode, ssl.CERT_REQUIRED)
+            self.assertFalse(kwargs['allow_redirects'])
 
     async def test_rejected_login(self):
         c=api.MyHouseClient(Session(Response(result='fail')))

@@ -4,7 +4,7 @@
     "step": {
       "user": {
         "title": "Account MyHouse Pro",
-        "description": "Integrazione cloud non ufficiale. Il protocollo del produttore usa HTTP e cifratura applicativa con chiave fissa, senza protezione HTTPS. Le credenziali sono salvate in Home Assistant. Il termostato deve essere in modalità cloud.",
+        "description": "Integrazione cloud non ufficiale. Si collega a MyHouse Pro tramite HTTPS con verifica del certificato. Le credenziali vengono salvate in Home Assistant. Il termostato deve essere in modalità cloud.",
         "data": {
           "username": "Email MyHouse Pro",
           "password": "Password MyHouse Pro"

@@ -1,7 +1,7 @@
 """MyHouse Pro Android 1.1.9 protocol. Unofficial; live validation required.
 
-The vendor uses HTTP and a fixed AES key. This reproduces that legacy protocol;
-it does not provide TLS security. Never log credentials, IDs or response bodies.
+All requests use verified HTTPS. Fixed-key AES is retained for protocol
+compatibility, not transport security. Never log credentials, IDs or bodies.
 """
 from __future__ import annotations
 
@@ -11,12 +11,17 @@ import binascii
 from dataclasses import dataclass
 import json
 import math
+import ssl
 from typing import Any
+from urllib.parse import urlsplit
 
 from Cryptodome.Cipher import AES
 from Cryptodome.Util.Padding import pad, unpad
 
-BASE_URL = "http://www.mycomforthouse.com:8080/iotfront/api.php/"
+BASE_URL = "https://www.mycomforthouse.com/iotfront/api.php/"
+# Load the system trust store once at module import, not during async requests.
+# An explicit context also overrides an injected connector's SSL defaults.
+TLS_CONTEXT = ssl.create_default_context()
 # Public protocol constant embedded in the vendor APK; not a user credential.
 PROTOCOL_KEY = b"www.brande.commc6mqtt_aes256ecb7"
 MAX_RESPONSE = 1024 * 1024
@@ -94,11 +99,16 @@ class MyHouseClient:
         self._request_lock = asyncio.Lock()
 
     async def _post(self, path: str, fields: dict[str, str]) -> Any:
+        if urlsplit(BASE_URL).scheme != "https":
+            raise MyHouseError("MyHouse Pro richiede una connessione HTTPS")
         body = {key: encrypt(str(value)) for key, value in fields.items()}
 
         async def request():
             # Do not redirect login/password data to any other destination.
-            async with self.session.post(BASE_URL + path + "?", data=body, allow_redirects=False) as response:
+            async with self.session.post(
+                BASE_URL + path + "?", data=body,
+                allow_redirects=False, ssl=TLS_CONTEXT,
+            ) as response:
                 if response.status != 200:
                     raise MyHouseError(f"Cloud non disponibile (HTTP {response.status})")
                 chunks = bytearray()

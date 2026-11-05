@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.2
+
+Security fix: replace the legacy HTTP endpoint with verified HTTPS on port 443 for all login, reading and command requests.
+
+- Explicit TLS context requires a trusted certificate and matching server hostname.
+- Reject non-HTTPS configuration before sending credentials; no HTTP fallback or redirects.
+- Regression tests for certificate failure, redirects and HTTPS-only reads/writes.
+- Updated English/Italian setup notices and upgrade guidance.
+- Vendor TLS and encrypted API response verified with a synthetic nonexistent account; no household credentials or commands used in public CI.
+
+Existing config entries and entity IDs are unchanged. Versions 0.2.1 and earlier should be upgraded.
+
 ## 0.2.1
 
 First public packaging of the locally tested 0.2.0 prototype.

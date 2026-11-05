@@ -4,7 +4,7 @@
     "step": {
       "user": {
         "title": "MyHouse Pro account",
-        "description": "Unofficial cloud integration. The vendor protocol uses HTTP and fixed-key application encryption, without HTTPS protection. Credentials are stored in Home Assistant. The thermostat must be in cloud mode.",
+        "description": "Unofficial cloud integration. Connects to MyHouse Pro using HTTPS with certificate verification. Credentials are stored in Home Assistant. The thermostat must be in cloud mode.",
         "data": {
           "username": "MyHouse Pro email",
           "password": "MyHouse Pro password"

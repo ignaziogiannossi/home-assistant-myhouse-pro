@@ -10,4 +10,4 @@
 8. Set repository description, topics and enable issues.
 9. Submit to hacs/default only with links to successful checks and the full release; make no claim that catalog review has already happened.
 
-A successful cloud readback is not confirmation of the physical heating relay. Keep the HTTP/fixed-key transport limitation in setup and documentation.
+A successful cloud readback is not confirmation of the physical heating relay. Require verified HTTPS for login, readings and commands, with no HTTP fallback or redirects. Document the fixed-key AES layer as protocol compatibility only.
