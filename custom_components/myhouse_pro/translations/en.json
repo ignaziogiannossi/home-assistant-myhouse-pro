@@ -1,0 +1,112 @@
+{
+  "title": "MyHouse Pro Cloud",
+  "config": {
+    "step": {
+      "user": {
+        "title": "MyHouse Pro account",
+        "description": "Unofficial cloud integration. The vendor protocol uses HTTP and fixed-key application encryption, without HTTPS protection. Credentials are stored in Home Assistant. The thermostat must be in cloud mode.",
+        "data": {
+          "username": "MyHouse Pro email",
+          "password": "MyHouse Pro password"
+        }
+      },
+      "device": {
+        "title": "Choose a thermostat",
+        "description": "Choose one thermostat. Repeat setup to add another thermostat. Setup only reads data.",
+        "data": {
+          "device_id": "Thermostat"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Sign-in rejected. Check email and password in the app.",
+      "cannot_connect": "Could not connect to MyHouse Pro or parse its response.",
+      "no_devices": "No supported thermostat found in this account.",
+      "wrong_account": "Use the same account as the existing configuration."
+    },
+    "abort": {
+      "already_configured": "This thermostat is already configured.",
+      "reauth_successful": "Authentication updated."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "temperature": {
+        "name": "Room temperature"
+      },
+      "humidity": {
+        "name": "Humidity"
+      },
+      "temperature_difference": {
+        "name": "Control differential"
+      },
+      "antifreeze": {
+        "name": "Frost protection temperature"
+      },
+      "holding_temperature": {
+        "name": "Hold temperature"
+      },
+      "delay_time": {
+        "name": "Power-on delay (cloud value)"
+      },
+      "holding_time": {
+        "name": "Hold duration (cloud value)"
+      },
+      "pattern_name": {
+        "name": "Cloud mode"
+      },
+      "pattern": {
+        "name": "Operating mode (cloud code)"
+      },
+      "program_mode": {
+        "name": "Schedule (cloud code)"
+      },
+      "keyboards": {
+        "name": "Keypad lock (cloud code)"
+      },
+      "standbys": {
+        "name": "Standby (cloud code)"
+      },
+      "speed": {
+        "name": "Fan (cloud code)"
+      },
+      "holiday": {
+        "name": "Holiday (cloud value)"
+      },
+      "holiday_startime": {
+        "name": "Holiday start (cloud value)"
+      },
+      "holiday_endtime": {
+        "name": "Holiday end (cloud value)"
+      },
+      "leave_days": {
+        "name": "Away duration (cloud value)"
+      },
+      "leavestate": {
+        "name": "Away state (cloud code)"
+      },
+      "temper_type": {
+        "name": "Cloud temperature unit"
+      },
+      "time_zone": {
+        "name": "Time zone (cloud code)"
+      },
+      "versions": {
+        "name": "Version (cloud code)"
+      },
+      "e_id": {
+        "name": "Device type (cloud code)"
+      }
+    },
+    "number": {
+      "setpoint": {
+        "name": "Target temperature"
+      }
+    },
+    "switch": {
+      "power": {
+        "name": "Power"
+      }
+    }
+  }
+}

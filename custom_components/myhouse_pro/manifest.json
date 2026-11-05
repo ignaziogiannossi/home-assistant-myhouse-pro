@@ -1,0 +1,19 @@
+{
+  "categories": [
+    "climate.thermostats_heating"
+  ],
+  "codeowners": [
+    "@ignaziogiannossi"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/ignaziogiannossi/home-assistant-myhouse-pro",
+  "domain": "myhouse_pro",
+  "integration_type": "hub",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/ignaziogiannossi/home-assistant-myhouse-pro/issues",
+  "name": "MyHouse Pro Cloud",
+  "requirements": [
+    "pycryptodomex==3.24.1"
+  ],
+  "version": "0.2.1"
+}

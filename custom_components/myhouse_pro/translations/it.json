@@ -1,0 +1,112 @@
+{
+  "title": "MyHouse Pro Cloud",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Account MyHouse Pro",
+        "description": "Integrazione cloud non ufficiale. Il protocollo del produttore usa HTTP e cifratura applicativa con chiave fissa, senza protezione HTTPS. Le credenziali sono salvate in Home Assistant. Il termostato deve essere in modalità cloud.",
+        "data": {
+          "username": "Email MyHouse Pro",
+          "password": "Password MyHouse Pro"
+        }
+      },
+      "device": {
+        "title": "Scegli il termostato da collaudare",
+        "description": "Scegli un termostato. Ripeti la configurazione per aggiungerne altri. La configurazione legge solo i dati.",
+        "data": {
+          "device_id": "Termostato"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Accesso rifiutato: verifica email e password nell’app.",
+      "cannot_connect": "Connessione o risposta MyHouse Pro non valida. Verifica il servizio e riprova.",
+      "no_devices": "Nessun termostato supportato trovato nell’account.",
+      "wrong_account": "Usa lo stesso account della configurazione esistente."
+    },
+    "abort": {
+      "already_configured": "Questo termostato è già configurato.",
+      "reauth_successful": "Accesso aggiornato."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "temperature": {
+        "name": "Temperatura ambiente"
+      },
+      "humidity": {
+        "name": "Umidità"
+      },
+      "temperature_difference": {
+        "name": "Differenziale di regolazione"
+      },
+      "antifreeze": {
+        "name": "Temperatura antigelo"
+      },
+      "holding_temperature": {
+        "name": "Temperatura di mantenimento"
+      },
+      "delay_time": {
+        "name": "Ritardo accensione valore cloud"
+      },
+      "holding_time": {
+        "name": "Durata mantenimento valore cloud"
+      },
+      "pattern_name": {
+        "name": "Modalita cloud"
+      },
+      "pattern": {
+        "name": "Modalita operativa codice cloud"
+      },
+      "program_mode": {
+        "name": "Programmazione codice cloud"
+      },
+      "keyboards": {
+        "name": "Blocco tastiera codice cloud"
+      },
+      "standbys": {
+        "name": "Standby codice cloud"
+      },
+      "speed": {
+        "name": "Ventola codice cloud"
+      },
+      "holiday": {
+        "name": "Vacanza valore cloud"
+      },
+      "holiday_startime": {
+        "name": "Inizio vacanza cloud"
+      },
+      "holiday_endtime": {
+        "name": "Fine vacanza cloud"
+      },
+      "leave_days": {
+        "name": "Durata assenza valore cloud"
+      },
+      "leavestate": {
+        "name": "Fuori casa codice cloud"
+      },
+      "temper_type": {
+        "name": "Unita temperatura cloud"
+      },
+      "time_zone": {
+        "name": "Fuso orario codice cloud"
+      },
+      "versions": {
+        "name": "Versione codice cloud"
+      },
+      "e_id": {
+        "name": "Tipo dispositivo codice cloud"
+      }
+    },
+    "number": {
+      "setpoint": {
+        "name": "Temperatura desiderata"
+      }
+    },
+    "switch": {
+      "power": {
+        "name": "Accensione"
+      }
+    }
+  }
+}
