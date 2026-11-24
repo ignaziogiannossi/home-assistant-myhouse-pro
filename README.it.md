@@ -6,7 +6,7 @@ Integrazione non ufficiale della comunità per Home Assistant, provata con due t
 
 ## Stato e funzioni
 
-Versione attuale: **0.2.3**, derivata dalla 0.2.0 usata sui due MC6. Altri modelli e account restano da verificare. L'installazione tramite link GitHub è distinta dall'inserimento nel catalogo ricercabile del Marketplace/HACS, che richiede una revisione.
+Versione attuale: **0.2.3**, derivata dalla 0.2.0 usata sui due MC6. Altri modelli e account restano da verificare. MyHouse Pro Cloud è nel catalogo predefinito condiviso da Marketplace e HACS.
 
 | Funzione | Comportamento |
 | --- | --- |
@@ -35,13 +35,19 @@ Le credenziali del proprio account vengono salvate nella configurazione locale d
 
 Richiede **Home Assistant 2026.11 o successivo**, versione attualmente presa come riferimento.
 
-1. Aprire **Impostazioni → Marketplace → Aggiungi da link**.
-2. Inserire `https://github.com/ignaziogiannossi/home-assistant-myhouse-pro`, scegliere **Integrazione** se richiesto e installare.
+1. Aprire **Impostazioni → Marketplace** e cercare **MyHouse Pro Cloud**.
+2. Aprire **MyHouse Pro Cloud** e installarla.
 3. Riavviare Home Assistant.
 4. Aprire **Impostazioni → Dispositivi e servizi → Aggiungi integrazione → MyHouse Pro Cloud**.
 5. Leggere la nota sulla connessione, inserire email e password del proprio account e scegliere un termostato. Ripetere per gli altri dispositivi.
 
-Con HACS usare **Repository personalizzati**, lo stesso link e categoria **Integrazione**. Per l'installazione manuale copiare `custom_components/myhouse_pro` nella cartella `custom_components` della configurazione HA, riavviare e seguire i punti 4–5.
+Se si usa HACS, cercare **MyHouse Pro Cloud** in HACS.
+
+Se l'integrazione non compare nella ricerca, usare il pulsante qui sotto oppure scegliere **Aggiungi da link** nel Marketplace e inserire `https://github.com/ignaziogiannossi/home-assistant-myhouse-pro`. Scegliere **Integrazione** se richiesto e proseguire dal punto 2.
+
+[![Apri nel Marketplace](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=ignaziogiannossi&repository=home-assistant-myhouse-pro&category=integration)
+
+Per l'installazione manuale copiare `custom_components/myhouse_pro` nella cartella `custom_components` della configurazione HA, riavviare e seguire i punti 4–5.
 
 Il termostato deve già funzionare nell'app MyHouse Pro ed essere in modalità Wi-Fi/cloud. Per questa integrazione non va attivato Modbus TCP. La configurazione esegue solo letture e non modifica automaticamente accensione, temperature o programmi.
 

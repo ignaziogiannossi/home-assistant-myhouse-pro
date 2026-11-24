@@ -6,7 +6,7 @@ Unofficial community integration for Home Assistant, tested with two **MAXA MC6*
 
 ## Status
 
-Current release: **0.2.3**, based on the 0.2.0 installation used with two MC6 thermostats. Compatibility with other devices/accounts is not yet established. The integration is distributed through its GitHub link; inclusion in the searchable Marketplace/HACS catalog is a separate review process.
+Current release: **0.2.3**, based on the 0.2.0 installation used with two MC6 thermostats. Compatibility with other devices/accounts is not yet established. MyHouse Pro Cloud is listed in the default catalog shared by Marketplace and HACS.
 
 ## Features
 
@@ -39,13 +39,15 @@ Requires **Home Assistant 2026.11 or newer** (the currently targeted version).
 
 ### Marketplace / HACS
 
-1. In Home Assistant 2026.11, open **Settings → Marketplace → Add from link**.
-2. Add `https://github.com/ignaziogiannossi/home-assistant-myhouse-pro`, choose **Integration** if asked, and install.
+1. Open **Settings → Marketplace** and search for **MyHouse Pro Cloud**.
+2. Open **MyHouse Pro Cloud** and install it.
 3. Restart Home Assistant.
 4. Open **Settings → Devices & services → Add integration → MyHouse Pro Cloud**.
 5. Read the transport notice, enter your own MyHouse Pro email/password, and select a thermostat. Repeat to add another.
 
-With HACS, use **Custom repositories**, the same URL and category **Integration**.
+If you use HACS, search for **MyHouse Pro Cloud** in HACS.
+
+If the integration does not appear in search, use the button below or select **Add from link** in the Marketplace and enter `https://github.com/ignaziogiannossi/home-assistant-myhouse-pro`. Choose **Integration** if prompted, then continue with steps 2–5.
 
 [![Open in Marketplace](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=ignaziogiannossi&repository=home-assistant-myhouse-pro&category=integration)
 
